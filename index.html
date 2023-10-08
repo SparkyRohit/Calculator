@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparky Calculator by Rohit Kumar</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #303030;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .calculator {
+            width: 320px;
+            background-color: #424242;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #0073e6;
+            margin: 0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 36px;
+            border: none;
+            border-bottom: 2px solid #0073e6;
+            background-color: #424242;
+            color: #fff;
+            outline: none;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button {
+            width: 100%;
+            padding: 15px;
+            font-size: 28px;
+            background-color: #0073e6;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #005bbf;
+        }
+
+        .button.clear {
+            background-color: #ff5454;
+        }
+
+        .button.clear:hover {
+            background-color: #e63434;
+        }
+
+        .button.delete {
+            background-color: #ff8c00;
+        }
+
+        .button.delete:hover {
+            background-color: #d87d00;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Sparky Calculator</h1>
+        <input type="text" id="display" disabled>
+        <div class="button-grid">
+            <button class="button" onclick="appendToDisplay('7')">7</button>
+            <button class="button" onclick="appendToDisplay('8')">8</button>
+            <button class="button" onclick="appendToDisplay('9')">9</button>
+            <button class="button" onclick="appendToDisplay('/')">/</button>
+            <button class="button" onclick="appendToDisplay('4')">4</button>
+            <button class="button" onclick="appendToDisplay('5')">5</button>
+            <button class="button" onclick="appendToDisplay('6')">6</button>
+            <button class="button" onclick="appendToDisplay('*')">×</button>
+            <button class="button" onclick="appendToDisplay('1')">1</button>
+            <button class="button" onclick="appendToDisplay('2')">2</button>
+            <button class="button" onclick="appendToDisplay('3')">3</button>
+            <button class="button" onclick="appendToDisplay('-')">-</button>
+            <button class="button" onclick="appendToDisplay('0')">0</button>
+            <button class="button" onclick="appendToDisplay('.')">.</button>
+            <button class="button clear" onclick="clearDisplay()">C</button>
+            <button class="button delete" onclick="deleteCharacter()">DEL</button>
+            <button class="button" onclick="calculateResult()">=</button>
+            <button class="button" onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+
+    <script>
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function deleteCharacter() {
+            const currentExpression = document.getElementById("display").value;
+            document.getElementById("display").value = currentExpression.slice(0, -1);
+        }
+
+        function calculateResult() {
+            const expression = document.getElementById("display").value;
+            try {
+                const result = eval(expression);
+                document.getElementById("display").value = result;
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+            if (/[\d+\-*/.=]|Enter|Backspace|Escape/.test(key)) {
+                event.preventDefault(); // Prevent the default behavior of Enter key
+                if (key === "Enter") {
+                    key = "=";
+                }
+                if (key === "Backspace") {
+                    key = "DEL";
+                }
+                appendToDisplay(key);
+            }
+        });
+    </script>
+</body>
+</html>
